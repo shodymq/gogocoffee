@@ -25,7 +25,8 @@ const CART_STORAGE_KEY = "gogo-coffee-cart";
 const price = (value: number) => `${value.toLocaleString("ru-RU")} ₸`;
 
 const categoryMeta = new Map(categories.map((category) => [category.id, category]));
-const aromaItem = menu.find((item) => item.id === "raf");
+const featuredComboIds = new Set(["combo-1", "combo-2"]);
+const featuredCombos = menu.filter((item) => featuredComboIds.has(item.id));
 
 const tabs: Array<{ id: TabId; label: string }> = [
   { id: "popular", label: "Танымал" },
@@ -166,7 +167,7 @@ function App() {
           </div>
         </nav>
 
-        <section className="relative z-10 mx-auto grid max-w-6xl gap-8 px-4 pb-12 pt-8 sm:px-6 md:grid-cols-[1.05fr_0.95fr] md:items-end md:pb-16 md:pt-14">
+        <section className="relative z-10 mx-auto max-w-6xl px-4 pt-8 sm:px-6 md:pt-14">
           <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55 }}>
             <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-2 text-sm text-milk/90">
               <Sparkles size={16} className="text-citrus" />
@@ -197,35 +198,24 @@ function App() {
               </a>
             </div>
           </motion.div>
+        </section>
 
-          <motion.div
-            initial={{ opacity: 0, y: 22 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.12, duration: 0.6 }}
-            className="rounded-[28px] border border-white/12 bg-white/10 p-4 shadow-soft backdrop-blur"
-          >
-            <div className="rounded-[22px] bg-milk p-4 text-espresso">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.22em] text-berry">Күннің хош иісі</p>
-                  <h2 className="mt-2 text-3xl font-black">Raf</h2>
-                </div>
-                <span className="rounded-full bg-espresso px-3 py-1 text-sm font-bold text-milk">
-                  {price(aromaItem?.price ?? 0)}
-                </span>
-              </div>
-              <p className="mt-4 text-sm leading-6 text-espresso/70">
-                Жұмсақ, жылы және ерекше дәм — күнді әдемі бастауға арналған.
-              </p>
-              <button
-                onClick={() => aromaItem && changeQuantity(aromaItem.id, 1)}
-                className="mt-5 inline-flex w-full items-center justify-center gap-2 rounded-full bg-berry px-4 py-3 text-sm font-bold text-white transition hover:bg-[#a42743]"
-              >
-                <Plus size={18} />
-                Себетке қосу
-              </button>
-            </div>
-          </motion.div>
+        <section className="relative z-10 mx-auto max-w-6xl px-4 pb-12 pt-8 sm:px-6 md:pb-16">
+          <div className="mb-4 flex items-center gap-2">
+            <Sparkles size={20} className="text-citrus" />
+            <h2 className="text-2xl font-black text-milk sm:text-3xl">Бүгінгі хиттер</h2>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2">
+            {featuredCombos.map((item, index) => (
+              <FeaturedComboCard
+                key={item.id}
+                item={item}
+                index={index}
+                quantity={cart[item.id] ?? 0}
+                onChange={changeQuantity}
+              />
+            ))}
+          </div>
         </section>
       </header>
 
@@ -269,7 +259,7 @@ function App() {
               </div>
               <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
                 {menu
-                  .filter((item) => item.popular)
+                  .filter((item) => item.popular && !featuredComboIds.has(item.id))
                   .slice(0, 6)
                   .map((item, index) => (
                     <MenuCard
@@ -358,6 +348,95 @@ function CategoryIcon({ category }: { category: MenuCategory }) {
     return <CupSoda size={20} className="text-sage" />;
   }
   return <Utensils size={20} className="text-berry" />;
+}
+
+function FeaturedComboCard({
+  item,
+  index,
+  quantity,
+  onChange,
+}: {
+  item: MenuItem;
+  index: number;
+  quantity: number;
+  onChange: (id: string, delta: number) => void;
+}) {
+  const [imageFailed, setImageFailed] = useState(false);
+  const details = item.description?.split(" + ") ?? [];
+
+  return (
+    <motion.article
+      initial={{ opacity: 0, y: 18 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.12 + index * 0.08, duration: 0.5 }}
+      className="overflow-hidden rounded-[28px] border border-white/15 bg-milk text-espresso shadow-soft lg:grid lg:min-h-[360px] lg:grid-cols-[0.45fr_0.55fr]"
+    >
+      {item.image && !imageFailed && (
+        <div className="relative h-[380px] overflow-hidden bg-[#fff7e3] sm:h-[420px] lg:h-full">
+          <img
+            src={item.image}
+            alt={item.title}
+            className="absolute inset-0 h-full w-full object-cover object-[center_48%]"
+            loading={index === 0 ? "eager" : "lazy"}
+            onError={() => setImageFailed(true)}
+          />
+        </div>
+      )}
+      <div className="flex min-h-[300px] flex-col justify-between p-5 sm:p-6">
+        <div>
+          <div className="flex items-start justify-between gap-4">
+            <span className="inline-flex rounded-full bg-berry px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-white">
+              {item.badge ?? "Хит"}
+            </span>
+            <span className="shrink-0 rounded-full bg-espresso px-3 py-1 text-sm font-black text-milk">
+              {price(item.price)}
+            </span>
+          </div>
+          <h3 className="mt-5 text-4xl font-black leading-none sm:text-5xl lg:text-4xl">{item.title}</h3>
+          {details.length > 0 && (
+            <div className="mt-5 grid gap-2 text-base font-bold text-espresso/76">
+              {details.map((detail) => (
+                <div key={detail} className="flex items-center gap-2">
+                  <span className="h-2 w-2 rounded-full bg-citrus" />
+                  <span>{detail}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="mt-6">
+          {quantity > 0 ? (
+            <div className="inline-flex w-full items-center justify-between rounded-full border border-espresso/10 bg-white p-1.5">
+              <button
+                onClick={() => onChange(item.id, -1)}
+                className="grid h-11 w-11 place-items-center rounded-full bg-crema text-espresso transition hover:bg-citrus/35"
+                aria-label={`Уменьшить ${item.title}`}
+              >
+                <Minus size={18} />
+              </button>
+              <span className="grid min-w-12 place-items-center text-base font-black">{quantity}</span>
+              <button
+                onClick={() => onChange(item.id, 1)}
+                className="grid h-11 w-11 place-items-center rounded-full bg-espresso text-milk transition hover:bg-cacao"
+                aria-label={`Добавить ${item.title}`}
+              >
+                <Plus size={18} />
+              </button>
+            </div>
+          ) : (
+            <button
+              onClick={() => onChange(item.id, 1)}
+              className="inline-flex h-14 w-full items-center justify-center gap-2 rounded-full bg-espresso px-5 text-base font-black text-milk transition hover:bg-cacao"
+            >
+              <Plus size={19} />
+              Себетке қосу
+            </button>
+          )}
+        </div>
+      </div>
+    </motion.article>
+  );
 }
 
 function MenuCard({
