@@ -376,6 +376,7 @@ function MenuCard({
   const category = categoryMeta.get(item.category);
   const isDeal = item.category === "combo" || item.category === "sets";
   const accent = category ? accentClasses[category.accent] : accentClasses.basic;
+  const [imageFailed, setImageFailed] = useState(false);
 
   return (
     <motion.article
@@ -388,6 +389,17 @@ function MenuCard({
         isDeal ? "min-h-[168px] border-berry/30" : ""
       }`}
     >
+      {item.image && !imageFailed && (
+        <div className="mb-3 h-36 overflow-hidden rounded-xl bg-crema sm:h-40">
+          <img
+            src={item.image}
+            alt={item.title}
+            className="h-full w-full object-cover"
+            loading="lazy"
+            onError={() => setImageFailed(true)}
+          />
+        </div>
+      )}
       <div>
         <div className="flex items-start justify-between gap-3">
           <h3 className={`${compact ? "text-[15px]" : "text-lg"} font-black leading-snug`}>{item.title}</h3>

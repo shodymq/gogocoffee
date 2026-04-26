@@ -1,3 +1,6 @@
+const combo1Image = new URL("../../combo1-2/combo1.jpg", import.meta.url).href;
+const combo2Image = new URL("../../combo1-2/combo2.jpg", import.meta.url).href;
+
 export type MenuCategory =
   | "coffee"
   | "milkshake"
@@ -23,6 +26,7 @@ export type MenuItem = {
   price: number;
   description?: string;
   badge?: string;
+  image?: string;
   popular?: boolean;
 };
 
@@ -53,12 +57,12 @@ export const categories: Category[] = [
 ];
 
 export const menu: MenuItem[] = [
-  { id: "espresso", title: "Эспрессо", category: "coffee", price: 690, popular: true },
+  { id: "espresso", title: "Эспрессо", category: "coffee", price: 690 },
   { id: "americano-03", title: "Американо 0.3", category: "coffee", price: 790 },
   { id: "americano-04", title: "Американо 0.4", category: "coffee", price: 990 },
   { id: "flat-white", title: "Флэт Уайт", category: "coffee", price: 990 },
   { id: "cappuccino-03", title: "Капучино 0.3", category: "coffee", price: 990 },
-  { id: "cappuccino-04", title: "Капучино 0.4", category: "coffee", price: 1090, popular: true },
+  { id: "cappuccino-04", title: "Капучино 0.4", category: "coffee", price: 1090 },
   { id: "latte-03", title: "Латте 0.3", category: "coffee", price: 1090 },
   { id: "latte-04", title: "Латте 0.4", category: "coffee", price: 1190, popular: true },
   {
@@ -75,7 +79,7 @@ export const menu: MenuItem[] = [
 
   { id: "milkshake-strawberry", title: "Құлпынай", category: "milkshake", price: 1490 },
   { id: "milkshake-banana", title: "Банан", category: "milkshake", price: 1490 },
-  { id: "milkshake-oreo", title: "Орео", category: "milkshake", price: 1490, popular: true },
+  { id: "milkshake-oreo", title: "Орео", category: "milkshake", price: 1490 },
   { id: "milkshake-caramel", title: "Карамель", category: "milkshake", price: 1490 },
   { id: "milkshake-chocolate", title: "Шоколад", category: "milkshake", price: 1490 },
 
@@ -83,13 +87,12 @@ export const menu: MenuItem[] = [
   { id: "fresh-apple", title: "Алма", category: "fresh", price: 1990 },
 
   { id: "lemonade-classic", title: "Классический", category: "lemonades", price: 1390 },
-  { id: "lemonade-kiwi-lime", title: "Киви-лайм", category: "lemonades", price: 1390, popular: true },
+  { id: "lemonade-kiwi-lime", title: "Киви-лайм", category: "lemonades", price: 1390 },
   {
     id: "lemonade-mango-passion",
     title: "Манго-маракуйя",
     category: "lemonades",
     price: 1390,
-    popular: true,
   },
   { id: "lemonade-berry-mojito", title: "Ягодный мохито", category: "lemonades", price: 1390 },
   { id: "lemonade-pomegranate", title: "Гранатовый", category: "lemonades", price: 1390 },
@@ -111,11 +114,11 @@ export const menu: MenuItem[] = [
   { id: "smoothie-apple-banana-kiwi", title: "Алма-банан-киви", category: "smoothie", price: 1590 },
 
   { id: "ice-americano", title: "Ice americano / Айс американо", category: "ice-coffee", price: 1290 },
-  { id: "ice-latte", title: "Ice latte / Айс латте", category: "ice-coffee", price: 1290, popular: true },
+  { id: "ice-latte", title: "Ice latte / Айс латте", category: "ice-coffee", price: 1290 },
   { id: "ice-cappuccino", title: "Ice Cappuccino / Айс капучино", category: "ice-coffee", price: 1290 },
   { id: "glasse", title: "Glasse / Гляссе", category: "ice-coffee", price: 1290 },
   { id: "frappe", title: "Frappe / Фраппе", category: "ice-coffee", price: 1290 },
-  { id: "oreo-frappe", title: "Oreo Frappe", category: "ice-coffee", price: 1390, popular: true },
+  { id: "oreo-frappe", title: "Oreo Frappe", category: "ice-coffee", price: 1390 },
   { id: "ice-matcha-mango", title: "Ice matcha mango", category: "ice-coffee", price: 1800 },
   { id: "ice-matcha-strawberry", title: "Ice матча құлпынай / Ice матча клубника", category: "ice-coffee", price: 1700 },
 
@@ -123,7 +126,7 @@ export const menu: MenuItem[] = [
   { id: "tea-green", title: "Жасыл шай", category: "tea", price: 750 },
   { id: "tea-jasmine", title: "Жасмин шай", category: "tea", price: 750 },
   { id: "tea-milk", title: "Сүтті шай", category: "tea", price: 800 },
-  { id: "tea-tary", title: "Тары шай", category: "tea", price: 950, popular: true },
+  { id: "tea-tary", title: "Тары шай", category: "tea", price: 950 },
   { id: "tea-tashkent", title: "Ташкент шай", category: "tea", price: 950 },
   { id: "tea-moroccan", title: "Мароккан шай", category: "tea", price: 950 },
   { id: "tea-fruit", title: "Фруктовый шай", category: "tea", price: 950 },
@@ -143,7 +146,7 @@ export const menu: MenuItem[] = [
 
   { id: "pizza-margarita", title: "Пицца Маргарита", category: "pizza", price: 2690 },
   { id: "pizza-pepperoni", title: "Пицца Пепперони", category: "pizza", price: 2990, popular: true },
-  { id: "pizza-gogo", title: "Пицца GoGo", category: "pizza", price: 2890, popular: true },
+  { id: "pizza-gogo", title: "Пицца GoGo", category: "pizza", price: 2890 },
   { id: "pizza-bbq", title: "Пицца BBQ", category: "pizza", price: 2890 },
   { id: "pizza-chicken-mushroom", title: "Пицца тауық пен саңырауқұлақ", category: "pizza", price: 2890 },
   { id: "pizza-bolognese", title: "Пицца Болоньезе", category: "pizza", price: 2890 },
@@ -159,12 +162,12 @@ export const menu: MenuItem[] = [
   { id: "fries-chicken", title: "Фри тауықпен", category: "snacks", price: 1990 },
   { id: "potato-balls", title: "Картоп шариктері", category: "snacks", price: 1090 },
   { id: "cheese-sticks", title: "Ірімшік таяқшалары 5шт", category: "snacks", price: 1390 },
-  { id: "nuggets", title: "Наггеттер 7шт", category: "snacks", price: 1890 },
+  { id: "nuggets", title: "Наггетсы 7шт", category: "snacks", price: 1890 },
 
-  { id: "sauce-cheese", title: "Ірімшікті", category: "sauces", price: 350 },
-  { id: "sauce-ketchup", title: "Кетчуп", category: "sauces", price: 350 },
-  { id: "sauce-bbq", title: "BBQ", category: "sauces", price: 350 },
-  { id: "sauce-garlic", title: "Сарымсақты", category: "sauces", price: 350 },
+  { id: "sauce-cheese", title: "Ірімшікті", category: "sauces", price: 250 },
+  { id: "sauce-ketchup", title: "Кетчуп", category: "sauces", price: 250 },
+  { id: "sauce-bbq", title: "BBQ", category: "sauces", price: 250 },
+  { id: "sauce-garlic", title: "Сарымсақты", category: "sauces", price: 250 },
 
   {
     id: "combo-1",
@@ -172,7 +175,8 @@ export const menu: MenuItem[] = [
     category: "combo",
     price: 1890,
     description: "Фри шұжықтармен + Лимонад",
-    badge: "Выгодно",
+    badge: "Хит",
+    image: combo1Image,
     popular: true,
   },
   {
@@ -181,7 +185,8 @@ export const menu: MenuItem[] = [
     category: "combo",
     price: 2290,
     description: "Фри тауықпен + Лимонад",
-    badge: "Выгодно",
+    badge: "Хит",
+    image: combo2Image,
     popular: true,
   },
   {
@@ -191,7 +196,6 @@ export const menu: MenuItem[] = [
     price: 2390,
     description: "Тәтті Бургер + Кофе 0.4",
     badge: "Выгодно",
-    popular: true,
   },
   {
     id: "combo-4",
@@ -200,16 +204,14 @@ export const menu: MenuItem[] = [
     price: 2890,
     description: "GoGo Burger + Фри + Кола 0.5",
     badge: "Выгодно",
-    popular: true,
   },
   {
     id: "set-1",
     title: "СЕТ 1",
     category: "sets",
     price: 12990,
-    description: "Пицца 2шт + Картоп шариктері + Наггеттер 7шт + Лимонад 4шт",
+    description: "Пицца 2шт + Картоп шариктері + Наггетсы 7шт + Лимонад 4шт",
     badge: "Компанияға",
-    popular: true,
   },
   {
     id: "set-2",
@@ -218,6 +220,5 @@ export const menu: MenuItem[] = [
     price: 6290,
     description: "Пицца 1шт + Ірімшік таяқшалары 5шт + Лимонад 2шт",
     badge: "Компанияға",
-    popular: true,
   },
 ];
