@@ -369,20 +369,20 @@ function FeaturedComboCard({
       initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.12 + index * 0.08, duration: 0.5 }}
-      className="overflow-hidden rounded-[28px] border border-white/15 bg-milk text-espresso shadow-soft lg:grid lg:min-h-[360px] lg:grid-cols-[0.45fr_0.55fr]"
+      className="overflow-hidden rounded-[28px] border border-white/15 bg-milk text-espresso shadow-soft"
     >
       {item.image && !imageFailed && (
-        <div className="relative h-[380px] overflow-hidden bg-[#fff7e3] sm:h-[420px] lg:h-full">
+        <div className="relative aspect-[16/11] overflow-hidden bg-[#fff7e3] md:aspect-[16/10]">
           <img
             src={item.image}
             alt={item.title}
-            className="absolute inset-0 h-full w-full object-cover object-[center_48%]"
+            className="absolute inset-0 h-full w-full object-cover object-[center_54%]"
             loading={index === 0 ? "eager" : "lazy"}
             onError={() => setImageFailed(true)}
           />
         </div>
       )}
-      <div className="flex min-h-[300px] flex-col justify-between p-5 sm:p-6">
+      <div className="flex min-h-[280px] flex-col justify-between p-5 sm:p-6">
         <div>
           <div className="flex items-start justify-between gap-4">
             <span className="inline-flex rounded-full bg-berry px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-white">
